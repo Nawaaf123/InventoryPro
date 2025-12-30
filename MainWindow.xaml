@@ -1,0 +1,48 @@
+﻿<Window x:Class="InventoryPro.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:InventoryPro.ViewModels"
+        Title="InventoryPro"
+        Height="650"
+        Width="1100">
+
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- SIDEBAR -->
+        <StackPanel Grid.Column="0" Background="#1F2937">
+            <TextBlock Text="InventoryPro"
+                       Foreground="White"
+                       FontSize="18"
+                       Margin="16"/>
+
+            <Button Content="Inventory"
+                    Command="{Binding NavInventoryCommand}"
+                    Margin="12"/>
+
+            <Button Content="Receive Stock"
+                    Command="{Binding NavReceiveCommand}"
+                    Margin="12"/>
+
+            <Button Content="Transfer Stock"
+                    Command="{Binding NavTransferCommand}"
+                    Margin="12"/>
+
+            <Button Content="Inventory History"
+                    Command="{Binding NavHistoryCommand}"
+                    Margin="12"/>
+        </StackPanel>
+
+        <!-- MAIN CONTENT -->
+        <ContentControl Grid.Column="1"
+                        Content="{Binding CurrentView}"
+                        Margin="16"/>
+    </Grid>
+</Window>
