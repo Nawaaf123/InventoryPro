@@ -17,6 +17,8 @@ namespace InventoryPro.ViewModels
             }
         }
 
+        private readonly InventoryViewModel _inventoryVM;
+
         public ICommand NavInventoryCommand { get; }
         public ICommand NavReceiveCommand { get; }
         public ICommand NavTransferCommand { get; }
@@ -24,13 +26,33 @@ namespace InventoryPro.ViewModels
 
         public MainViewModel()
         {
-            NavInventoryCommand = new RelayCommand(_ => CurrentView = new InventoryView());
-            NavReceiveCommand = new RelayCommand(_ => CurrentView = new ReceiveStockView());
-            NavTransferCommand = new RelayCommand(_ => CurrentView = new TransferStockView());
-            NavHistoryCommand = new RelayCommand(_ => CurrentView = new InventoryHistoryView());
+            _inventoryVM = new InventoryViewModel();
 
-            // Default screen
-            CurrentView = new InventoryView();
+            NavInventoryCommand = new RelayCommand(_ =>
+                CurrentView = new InventoryView { DataContext = _inventoryVM });
+
+            NavReceiveCommand = new RelayCommand(_ =>
+                CurrentView = new ReceiveStockView
+                {
+                    DataContext = new ReceiveStockViewModel(_inventoryVM)
+                });
+
+            NavTransferCommand = new RelayCommand(_ =>
+                CurrentView = new TransferStockView
+                {
+                    DataContext = new TransferStockViewModel(_inventoryVM)
+                });
+
+            NavHistoryCommand = new RelayCommand(_ =>
+                CurrentView = new InventoryHistoryView
+                {
+                    DataContext = new InventoryHistoryViewModel(_inventoryVM)
+                });
+
+            CurrentView = new InventoryView
+            {
+                DataContext = _inventoryVM
+            };
         }
     }
 }

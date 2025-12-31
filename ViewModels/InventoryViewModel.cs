@@ -15,9 +15,6 @@ namespace InventoryPro.ViewModels
         public ICommand AddItemCommand { get; }
         public ICommand TransferStockCommand { get; }
 
-        public ICommand InventoryHistoryCommand { get; }
-
-
         public InventoryViewModel()
         {
             Items = new ObservableCollection<InventoryItem>
@@ -94,9 +91,7 @@ namespace InventoryPro.ViewModels
                 QtyAdded = qty
             });
 
-            // Notify UI refresh
             OnPropertyChanged(nameof(Items));
         }
-
     }
 }
