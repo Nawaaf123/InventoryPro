@@ -31,9 +31,7 @@
                     Command="{Binding NavReceiveCommand}"
                     Margin="12"/>
 
-            <Button Content="Transfer Stock"
-                    Command="{Binding NavTransferCommand}"
-                    Margin="12"/>
+           
 
             <Button Content="Inventory History"
                     Command="{Binding NavHistoryCommand}"

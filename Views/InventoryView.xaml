@@ -40,6 +40,7 @@
                         Padding="10,4"/>
 
                 <Button Content="Transfer Stock"
+                        Command="{Binding TransferStockCommand}"
                         Margin="4"
                         Padding="10,4"/>
 
@@ -47,7 +48,14 @@
                         Command="{Binding AddItemCommand}"
                         Background="#10B981"
                         Foreground="White"/>
-                
+
+                <Button Content="Inventory History"
+                        Command="{Binding InventoryHistoryCommand}"
+                        Margin="4"
+                        Padding="10,4"/>
+
+
+
 
             </StackPanel>
         </Grid>

@@ -13,11 +13,56 @@ namespace InventoryPro.Models
         public int MinStockLevel { get; set; }
 
 
-        public int WarehouseA { get; set; }
-        public int WarehouseB { get; set; }
-        public int WarehouseC { get; set; }
-        public int WarehouseD { get; set; }
+        private int _warehouseA;
+        public int WarehouseA
+        {
+            get => _warehouseA;
+            set
+            {
+                _warehouseA = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(Quantity));
+            }
+        }
 
-        public int Quantity { get; set; }
+        private int _warehouseB;
+        public int WarehouseB
+        {
+            get => _warehouseB;
+            set
+            {
+                _warehouseB = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(Quantity));
+            }
+        }
+
+        private int _warehouseC;
+        public int WarehouseC
+        {
+            get => _warehouseC;
+            set
+            {
+                _warehouseC = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(Quantity));
+            }
+        }
+
+        private int _warehouseD;
+        public int WarehouseD
+        {
+            get => _warehouseD;
+            set
+            {
+                _warehouseD = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(Quantity));
+            }
+        }
+
+        // ✅ AUTO-CALCULATED
+        public int Quantity =>
+            WarehouseA + WarehouseB + WarehouseC + WarehouseD;
     }
 }
