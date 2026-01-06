@@ -27,15 +27,15 @@
                     Command="{Binding NavInventoryCommand}"
                     Margin="12"/>
 
-            <Button Content="Receive Stock"
-                    Command="{Binding NavReceiveCommand}"
-                    Margin="12"/>
-
-           
-
+            
             <Button Content="Inventory History"
                     Command="{Binding NavHistoryCommand}"
                     Margin="12"/>
+
+            <Button Content="Wholesalers"
+                    Margin="12"
+                    Command="{Binding NavWholesalersCommand}" />
+
         </StackPanel>
 
         <!-- MAIN CONTENT -->

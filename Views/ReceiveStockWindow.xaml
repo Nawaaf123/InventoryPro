@@ -1,0 +1,13 @@
+﻿<Window x:Class="InventoryPro.Views.ReceiveStockWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Views="clr-namespace:InventoryPro.Views"
+        Title="Receive Stock"
+        Height="450"
+        Width="650"
+        WindowStartupLocation="CenterOwner">
+
+    <!-- IMPORTANT:
+         We reuse your existing ReceiveStock UI by hosting it -->
+    <Views:ReceiveStockView />
+</Window>

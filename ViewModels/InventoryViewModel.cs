@@ -15,6 +15,9 @@ namespace InventoryPro.ViewModels
         public ICommand AddItemCommand { get; }
         public ICommand TransferStockCommand { get; }
 
+        public ICommand ReceiveStockCommand { get; }
+
+
         public InventoryViewModel()
         {
             Items = new ObservableCollection<InventoryItem>
@@ -41,6 +44,8 @@ namespace InventoryPro.ViewModels
 
             AddItemCommand = new RelayCommand(_ => OpenAddItem());
             TransferStockCommand = new RelayCommand(_ => OpenTransferStock());
+            ReceiveStockCommand = new RelayCommand(_ => OpenReceiveStock());
+
         }
 
         private void OpenAddItem()
@@ -52,6 +57,17 @@ namespace InventoryPro.ViewModels
 
             window.ShowDialog();
         }
+
+        private void OpenReceiveStock()
+        {
+            var window = new ReceiveStockWindow
+            {
+                DataContext = new ReceiveStockViewModel(this)
+            };
+
+            window.ShowDialog();
+        }
+
 
         private void OpenTransferStock()
         {

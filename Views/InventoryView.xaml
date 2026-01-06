@@ -36,6 +36,7 @@
                         Margin="0,0,0,8">
 
                 <Button Content="Receive Stock"
+                        Command="{Binding ReceiveStockCommand}"
                         Margin="4"
                         Padding="10,4"/>
 

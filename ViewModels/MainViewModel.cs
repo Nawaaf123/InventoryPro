@@ -20,9 +20,12 @@ namespace InventoryPro.ViewModels
         private readonly InventoryViewModel _inventoryVM;
 
         public ICommand NavInventoryCommand { get; }
-        public ICommand NavReceiveCommand { get; }
+        
         public ICommand NavTransferCommand { get; }
         public ICommand NavHistoryCommand { get; }
+
+        public ICommand NavWholesalersCommand { get; }
+
 
         public MainViewModel()
         {
@@ -31,11 +34,8 @@ namespace InventoryPro.ViewModels
             NavInventoryCommand = new RelayCommand(_ =>
                 CurrentView = new InventoryView { DataContext = _inventoryVM });
 
-            NavReceiveCommand = new RelayCommand(_ =>
-                CurrentView = new ReceiveStockView
-                {
-                    DataContext = new ReceiveStockViewModel(_inventoryVM)
-                });
+            NavWholesalersCommand = new RelayCommand(_ => CurrentView = new WholesalersView());
+
 
             NavTransferCommand = new RelayCommand(_ =>
                 CurrentView = new TransferStockView

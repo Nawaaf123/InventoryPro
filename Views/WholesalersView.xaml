@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="InventoryPro.Views.WholesalersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- HEADER -->
+        <Grid Grid.Row="0" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT: TITLE -->
+            <StackPanel>
+                <TextBlock Text="Wholesalers"
+                   FontSize="24"
+                   FontWeight="Bold"/>
+                <TextBlock Text="Manage wholesaler contacts"
+                   Foreground="Gray"/>
+            </StackPanel>
+
+            <!-- RIGHT: ADD BUTTON -->
+            <Button Grid.Column="1"
+            Content="+ Add Wholesaler"
+            Command="{Binding AddWholesalerCommand}"
+            Background="#10B981"
+            Foreground="White"
+            Padding="10,4"
+            Margin="8,0,0,0"/>
+        </Grid>
+
+
+        <!-- SEARCH BAR -->
+        <TextBox Grid.Row="1"
+             Width="260"
+             Margin="0,0,0,12"
+             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+
+        <!-- TABLE -->
+        <DataGrid Grid.Row="2"
+              ItemsSource="{Binding FilteredWholesalers}"
+              AutoGenerateColumns="False"
+              CanUserAddRows="False"
+              HeadersVisibility="Column"
+              GridLinesVisibility="All">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Company"
+                                Binding="{Binding CompanyName}"
+                                Width="*"/>
+                <DataGridTextColumn Header="Contact"
+                                Binding="{Binding ContactPerson}"
+                                Width="*"/>
+                <DataGridTextColumn Header="Phone"
+                                Binding="{Binding Phone}"
+                                Width="150"/>
+                <DataGridTextColumn Header="Email"
+                                Binding="{Binding Email}"
+                                Width="*"/>
+                <DataGridTextColumn Header="Address"
+                                Binding="{Binding Address}"
+                                Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+
+</UserControl>
