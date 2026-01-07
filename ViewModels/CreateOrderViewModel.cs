@@ -10,7 +10,7 @@ namespace InventoryPro.ViewModels
     {
         private readonly InventoryViewModel _inventoryVM;
 
-        // Dropdown sources
+        // ===== DROPDOWN SOURCES =====
         public ObservableCollection<Wholesaler> Wholesalers { get; }
         public ObservableCollection<InventoryItem> Items => _inventoryVM.Items;
 
@@ -23,23 +23,62 @@ namespace InventoryPro.ViewModels
                 "Warehouse D"
             };
 
-        // Header
-        public string WholesalerName { get; set; } = "";
+        // ===== HEADER =====
+        private string _wholesalerName = "";
+        public string WholesalerName
+        {
+            get => _wholesalerName;
+            set
+            {
+                _wholesalerName = value;
+                OnPropertyChanged();
+            }
+        }
 
-        // Current row inputs
-        public InventoryItem SelectedItem { get; set; }
-        public string SelectedWarehouse { get; set; }
-        public int Quantity { get; set; }
+        // ===== CURRENT ROW INPUTS (🔥 FIXED WITH NOTIFY) =====
+        private InventoryItem _selectedItem;
+        public InventoryItem SelectedItem
+        {
+            get => _selectedItem;
+            set
+            {
+                _selectedItem = value;
+                OnPropertyChanged();
+            }
+        }
 
-        // Order lines
+        private string _selectedWarehouse;
+        public string SelectedWarehouse
+        {
+            get => _selectedWarehouse;
+            set
+            {
+                _selectedWarehouse = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _quantity;
+        public int Quantity
+        {
+            get => _quantity;
+            set
+            {
+                _quantity = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // ===== ORDER LINES =====
         public ObservableCollection<OrderLine> OrderLines { get; }
             = new ObservableCollection<OrderLine>();
 
-        // Commands
+        // ===== COMMANDS =====
         public ICommand AddLineCommand { get; }
         public ICommand CreateOrderCommand { get; }
         public ICommand CancelCommand { get; }
 
+        // ===== CONSTRUCTOR =====
         public CreateOrderViewModel(
             InventoryViewModel inventoryVM,
             ObservableCollection<Wholesaler> wholesalers)
@@ -52,10 +91,9 @@ namespace InventoryPro.ViewModels
             CancelCommand = new RelayCommand(w => (w as Window)?.Close());
         }
 
-
+        // ===== ADD PRODUCT TO ORDER =====
         private void AddLine()
         {
-            // 🔴 GUARD CHECK (THIS IS WHY IT WAS FAILING)
             if (SelectedItem == null ||
                 string.IsNullOrWhiteSpace(SelectedWarehouse) ||
                 Quantity <= 0)
@@ -71,16 +109,13 @@ namespace InventoryPro.ViewModels
                 Quantity = Quantity
             });
 
-            // Reset inputs
+            // RESET INPUTS (now works because of PropertyChanged)
             SelectedItem = null;
             SelectedWarehouse = null;
             Quantity = 0;
-
-            OnPropertyChanged(nameof(SelectedItem));
-            OnPropertyChanged(nameof(SelectedWarehouse));
-            OnPropertyChanged(nameof(Quantity));
         }
 
+        // ===== CREATE ORDER + DEDUCT INVENTORY =====
         private void CreateOrder()
         {
             if (!OrderLines.Any())
