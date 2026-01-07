@@ -36,6 +36,11 @@
                     Margin="12"
                     Command="{Binding NavWholesalersCommand}" />
 
+            <Button Content="Orders"
+                    Margin="12"
+                    Command="{Binding NavOrdersCommand}" />
+
+
         </StackPanel>
 
         <!-- MAIN CONTENT -->

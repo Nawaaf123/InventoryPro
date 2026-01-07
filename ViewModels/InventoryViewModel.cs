@@ -17,6 +17,45 @@ namespace InventoryPro.ViewModels
 
         public ICommand ReceiveStockCommand { get; }
 
+        public bool DeductStock(
+            InventoryItem item,
+            string warehouse,
+            int qty)
+        {
+            if (item == null || qty <= 0)
+                return false;
+
+            switch (warehouse)
+            {
+                case "Warehouse A":
+                    if (item.WarehouseA < qty) return false;
+                    item.WarehouseA -= qty;
+                    break;
+
+                case "Warehouse B":
+                    if (item.WarehouseB < qty) return false;
+                    item.WarehouseB -= qty;
+                    break;
+
+                case "Warehouse C":
+                    if (item.WarehouseC < qty) return false;
+                    item.WarehouseC -= qty;
+                    break;
+
+                case "Warehouse D":
+                    if (item.WarehouseD < qty) return false;
+                    item.WarehouseD -= qty;
+                    break;
+
+                default:
+                    return false;
+            }
+
+            return true;
+        }
+
+
+
 
         public InventoryViewModel()
         {
