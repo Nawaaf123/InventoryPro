@@ -9,8 +9,8 @@ namespace InventoryPro.ViewModels
     public class CreateOrderViewModel : ViewModelBase
     {
         private readonly InventoryViewModel _inventoryVM;
+        private readonly OrdersViewModel _ordersVM;
 
-        // ===== DROPDOWN SOURCES =====
         public ObservableCollection<Wholesaler> Wholesalers { get; }
         public ObservableCollection<InventoryItem> Items => _inventoryVM.Items;
 
@@ -23,75 +23,57 @@ namespace InventoryPro.ViewModels
                 "Warehouse D"
             };
 
-        // ===== HEADER =====
-        private string _wholesalerName = "";
-        public string WholesalerName
+        // Header
+        private string _wholesaler;
+        public string Wholesaler
         {
-            get => _wholesalerName;
-            set
-            {
-                _wholesalerName = value;
-                OnPropertyChanged();
-            }
+            get => _wholesaler;
+            set { _wholesaler = value; OnPropertyChanged(); }
         }
 
-        // ===== CURRENT ROW INPUTS (🔥 FIXED WITH NOTIFY) =====
+        // Row inputs
         private InventoryItem _selectedItem;
         public InventoryItem SelectedItem
         {
             get => _selectedItem;
-            set
-            {
-                _selectedItem = value;
-                OnPropertyChanged();
-            }
+            set { _selectedItem = value; OnPropertyChanged(); }
         }
 
         private string _selectedWarehouse;
         public string SelectedWarehouse
         {
             get => _selectedWarehouse;
-            set
-            {
-                _selectedWarehouse = value;
-                OnPropertyChanged();
-            }
+            set { _selectedWarehouse = value; OnPropertyChanged(); }
         }
 
         private int _quantity;
         public int Quantity
         {
             get => _quantity;
-            set
-            {
-                _quantity = value;
-                OnPropertyChanged();
-            }
+            set { _quantity = value; OnPropertyChanged(); }
         }
 
-        // ===== ORDER LINES =====
         public ObservableCollection<OrderLine> OrderLines { get; }
             = new ObservableCollection<OrderLine>();
 
-        // ===== COMMANDS =====
         public ICommand AddLineCommand { get; }
         public ICommand CreateOrderCommand { get; }
         public ICommand CancelCommand { get; }
 
-        // ===== CONSTRUCTOR =====
         public CreateOrderViewModel(
             InventoryViewModel inventoryVM,
-            ObservableCollection<Wholesaler> wholesalers)
+            ObservableCollection<Wholesaler> wholesalers,
+            OrdersViewModel ordersVM)
         {
             _inventoryVM = inventoryVM;
+            _ordersVM = ordersVM;
             Wholesalers = wholesalers;
 
             AddLineCommand = new RelayCommand(_ => AddLine());
-            CreateOrderCommand = new RelayCommand(_ => CreateOrder());
+            CreateOrderCommand = new RelayCommand(w => CreateOrder(w));
             CancelCommand = new RelayCommand(w => (w as Window)?.Close());
         }
 
-        // ===== ADD PRODUCT TO ORDER =====
         private void AddLine()
         {
             if (SelectedItem == null ||
@@ -109,14 +91,12 @@ namespace InventoryPro.ViewModels
                 Quantity = Quantity
             });
 
-            // RESET INPUTS (now works because of PropertyChanged)
             SelectedItem = null;
             SelectedWarehouse = null;
             Quantity = 0;
         }
 
-        // ===== CREATE ORDER + DEDUCT INVENTORY =====
-        private void CreateOrder()
+        private void CreateOrder(object window)
         {
             if (!OrderLines.Any())
             {
@@ -126,14 +106,25 @@ namespace InventoryPro.ViewModels
 
             foreach (var line in OrderLines)
             {
-                _inventoryVM.DeductStock(
+                if (!_inventoryVM.DeductStock(
                     line.Item,
                     line.Warehouse,
-                    line.Quantity
-                );
+                    line.Quantity))
+                {
+                    MessageBox.Show(
+                        $"Not enough stock for {line.Item.Name} in {line.Warehouse}");
+                    return;
+                }
             }
 
+            var order = new Order { Wholesaler = Wholesaler };
+            foreach (var line in OrderLines)
+                order.Lines.Add(line);
+
+            _ordersVM.AddOrder(order);
+
             MessageBox.Show("Order created successfully.");
+            (window as Window)?.Close();
         }
     }
 }

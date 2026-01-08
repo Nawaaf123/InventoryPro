@@ -1,9 +1,6 @@
 ﻿<UserControl x:Class="InventoryPro.Views.OrdersView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Grid Margin="16">
         <Grid.RowDefinitions>
@@ -11,75 +8,25 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- HEADER -->
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <StackPanel>
-                <TextBlock Text="Orders"
-                           FontSize="24"
-                           FontWeight="Bold"/>
-                <TextBlock Text="Manage outgoing orders and track shipment history"
-                           Foreground="Gray"/>
-            </StackPanel>
-
-            <Button Grid.Column="1"
-                    Content="+ Create Order"
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Orders"
+                       FontSize="24"
+                       FontWeight="Bold"/>
+            <Button Content="+ Create Order"
                     Command="{Binding CreateOrderCommand}"
-                    Background="#10B981"
-                    Foreground="White"
-                    Padding="12,6"/>
-        </Grid>
+                    Margin="16,0,0,0"/>
+        </StackPanel>
 
-        <!-- ORDERS LIST -->
-        <ScrollViewer Grid.Row="1" Margin="0,16,0,0">
-            <ItemsControl ItemsSource="{Binding Orders}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderThickness="1"
-                                BorderBrush="#E5E7EB"
-                                CornerRadius="6"
-                                Padding="12"
-                                Margin="0,0,0,12">
-
-                            <StackPanel>
-                                <TextBlock Text="{Binding WholesalerName}"
-                                           FontWeight="Bold"
-                                           FontSize="14"/>
-
-                                <ItemsControl ItemsSource="{Binding Lines}"
-                                              Margin="0,8,0,0">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid Margin="0,4,0,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <TextBlock Text="{Binding Item.Name}"/>
-                                                <TextBlock Grid.Column="1"
-                                                           Text="{Binding Quantity}"
-                                                           FontWeight="Bold"/>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-
-                                <TextBlock Text="{Binding CreatedAt, StringFormat='{}{0:g}'}"
-                                           Foreground="Gray"
-                                           FontSize="11"
-                                           HorizontalAlignment="Right"
-                                           Margin="0,6,0,0"/>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Orders}"
+                  AutoGenerateColumns="False"
+                  Margin="0,12,0,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Wholesaler"
+                                    Binding="{Binding Wholesaler}" />
+                <DataGridTextColumn Header="Created"
+                                    Binding="{Binding CreatedAt}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

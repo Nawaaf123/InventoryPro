@@ -10,6 +10,9 @@ namespace InventoryPro.ViewModels
         private readonly InventoryViewModel _inventoryVM;
         private readonly WholesalersViewModel _wholesalersVM;
 
+        public ObservableCollection<Order> Orders { get; }
+            = new ObservableCollection<Order>();
+
         public ICommand CreateOrderCommand { get; }
 
         public OrdersViewModel(
@@ -28,12 +31,16 @@ namespace InventoryPro.ViewModels
             {
                 DataContext = new CreateOrderViewModel(
                     _inventoryVM,
-                    _wholesalersVM.Wholesalers
-                )
+                    _wholesalersVM.Wholesalers,
+                    this)
             };
 
             window.ShowDialog();
         }
-    }
 
+        public void AddOrder(Order order)
+        {
+            Orders.Add(order);
+        }
+    }
 }
