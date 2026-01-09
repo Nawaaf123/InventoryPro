@@ -30,6 +30,9 @@ namespace InventoryPro.ViewModels
         public ICommand NavWholesalersCommand { get; }
         public ICommand NavOrdersCommand { get; }
 
+        public ICommand NavStockSummaryCommand { get; }
+
+
         public MainViewModel()
         {
             // ✅ CREATE ONCE (VERY IMPORTANT)
@@ -43,6 +46,13 @@ namespace InventoryPro.ViewModels
                 {
                     DataContext = _inventoryVM
                 });
+
+            NavStockSummaryCommand = new RelayCommand(_ =>
+                CurrentView = new StockSummaryView
+                {
+                    DataContext = new StockSummaryViewModel(_inventoryVM, _ordersVM)
+                });
+
 
             // 🔹 WHOLESALERS
             NavWholesalersCommand = new RelayCommand(_ =>

@@ -2,8 +2,8 @@
 {
     public class OrderLine
     {
-        public InventoryItem Item { get; set; }
-        public string Warehouse { get; set; }
+        public InventoryItem Item { get; set; } = new InventoryItem();
+        public string Warehouse { get; set; } = "";
         public int Quantity { get; set; }
     }
 }

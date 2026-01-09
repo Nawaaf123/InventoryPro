@@ -40,6 +40,11 @@
                     Margin="12"
                     Command="{Binding NavOrdersCommand}" />
 
+            <Button Content="Stock Summary"
+                    Margin="12"
+                    Command="{Binding NavStockSummaryCommand}"/>
+
+
 
         </StackPanel>
 
